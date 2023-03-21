@@ -5,52 +5,53 @@ participant Controller
 participant Model
 View -> Controller : người chơi tạo ván mới
 Controller --> Player : thông báo mời người chơi nhập
-
 View -> Controller : Người chơi nhập nước đi hợp lệ
+
 alt kiểm tra người chơi chiến thắng
-Controller -> Model : cập nhật trạng thái người chơi thắng 
-Model -> Controller : Gửi trạng thái người chơi thắng
-Controller -> View : cập nhật giao diện người chơi thắng
-Controller --> Player : thông báo kết quả người chơi thắng
+    Controller -> Model : cập nhật trạng thái người chơi thắng 
+    Model -> Controller : Gửi trạng thái người chơi thắng
+    Controller -> View : cập nhật giao diện người chơi thắng
+    Controller --> Player : thông báo kết quả người chơi thắng
 else người chơi chưa chiến thắng
-alt kiểm tra phương án hợp lệ
-Controller -> Model:Còn phương án hợp lệ
-group không có phương án hợp lệ
-Model -> Controller: không còn phương án hợp lệ
-Controller -> Model : cập nhật trạng thái không còn trạng thái hợp lệ
-Model -> Controller : Gửi trạng thái hòa
-Controller -> View : cập nhật giao diện hòa
-Controller --> Player : thông báo kết quả hòa
-end
-else có phương án hợp lệ 
-alt Kiểm tra có phương án chiến thắng
-group Có phương án chiến thắng
-Model -> Controller: Có phương án chiến thắng
-Controller -> Model : cập nhật nước đi máy thắng
-Model -> Controller : gửi trạng thái máy đi nước tiếp theo sẽ thắng 
-Controller -> View : Cập nhập giao diện thua
-Controller --> Player : thông báo kết quả người chơi thua
-end
-else Không có phương án chiến thắng
-Model -> Controller: chưa có phương án chiến thắng
-alt Kiểm tra có phương án đánh chặn
-Controller -> Model : Có phương án chặn đánh
-group Có phương án đánh chặn
-Model -> Controller : gửi trạng thái có phương án chặn đánh
-Controller -> Model : Cập nhập phương án đánh chặn tốt nhất 
-Model -> Controller : gửi trạng thái đánh chặn đi
-end
-else không có phương án đánh chặn
-Model -> Controller : gửi trạng thái không có phương án chặn đánh
-alt kiểm tra phương án chiến thuật
-Controller -> Model : Có phương án chiến thuật tốt nhất
-Model -> Controller : gửi trạng thái có phương án chiến thuật tốt nhất
-Controller -> Model : Cập nhập phương án chiến thuật tốt nhất 
-Model -> Controller : Gửi trạng thái đánh theo phương án chiến thuật tốt nhất
-end
-end
-Controller -> View : Cập nhật dao diện
-Controller --> Player : thông báo mời người chơi nhập
-end
+    alt kiểm tra phương án hợp lệ
+        Controller -> Model:Còn phương án hợp lệ
+        group không có phương án hợp lệ
+            Model -> Controller: không còn phương án hợp lệ
+            Controller -> Model : cập nhật trạng thái không còn trạng thái hợp lệ
+            Model -> Controller : Gửi trạng thái hòa
+            Controller -> View : cập nhật giao diện hòa
+            Controller --> Player : thông báo kết quả hòa
+        end
+    else có phương án hợp lệ 
+        alt Kiểm tra có phương án chiến thắng
+            group Có phương án chiến thắng
+                Model -> Controller: Có phương án chiến thắng
+                Controller -> Model : cập nhật nước đi máy thắng
+                Model -> Controller : gửi trạng thái máy đi nước tiếp theo sẽ thắng 
+                Controller -> View : Cập nhập giao diện thua
+                Controller --> Player : thông báo kết quả người chơi thua
+            end
+        else Không có phương án chiến thắng
+            Model -> Controller: chưa có phương án chiến thắng
+            alt Kiểm tra có phương án đánh chặn
+                Controller -> Model : Có phương án chặn đánh
+                group Có phương án đánh chặn
+                    Model -> Controller : gửi trạng thái có phương án chặn đánh
+                    Controller -> Model : Cập nhập phương án đánh chặn tốt nhất 
+                    Model -> Controller : gửi trạng thái đánh chặn đi
+                end
+            else không có phương án đánh chặn
+                Model -> Controller : gửi trạng thái không có phương án chặn đánh
+                alt kiểm tra phương án chiến thuật
+                    Controller -> Model : Có phương án chiến thuật tốt nhất
+                    Model -> Controller : gửi trạng thái có phương án chiến thuật tốt nhất
+                    Controller -> Model : Cập nhập phương án chiến thuật tốt nhất 
+                    Model -> Controller : Gửi trạng thái đánh theo phương án chiến thuật tốt nhất
+                end
+                Controller -> View : Cập nhật dao diện
+                Controller --> Player : thông báo mời người chơi nhập
+            end
+        end
+    end
 end
 @enduml
